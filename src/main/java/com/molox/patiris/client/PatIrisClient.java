@@ -1,6 +1,7 @@
 package com.molox.patiris.client;
 
 import com.molox.patiris.PatIris;
+import com.tacz.guns.api.item.IGun;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -17,15 +18,31 @@ public class PatIrisClient {
 
     private static boolean emoteChecked = false;
     private static Method isPlayingEmoteMethod = null;
+    private static boolean taczLoaded = false;
 
     @SubscribeEvent
     public static void onClientSetup(FMLClientSetupEvent event) {
         if (!isModLoaded("entity_model_features")) {
             return;
         }
+        taczLoaded = isModLoaded("tacz");
         event.enqueueWork(() ->
-                EMFAnimationApi.registerVanillaModelCondition(PatIrisClient::isPlayerEmoting)
+                EMFAnimationApi.registerVanillaModelCondition(PatIrisClient::shouldUseVanillaModel)
         );
+    }
+
+    private static boolean shouldUseVanillaModel(EMFEntity entity) {
+        return isHoldingTaczGun(entity) || isPlayerEmoting(entity);
+    }
+
+    private static boolean isHoldingTaczGun(EMFEntity entity) {
+        if (!taczLoaded) {
+            return false;
+        }
+        if (!(entity instanceof AbstractClientPlayer player)) {
+            return false;
+        }
+        return player.getMainHandItem().getItem() instanceof IGun;
     }
 
     private static boolean isPlayerEmoting(EMFEntity entity) {

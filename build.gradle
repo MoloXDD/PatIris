@@ -130,6 +130,7 @@ dependencies {
     compileOnly files('libs/entity_texture_features_1.21-neoforge-7.1.jar')
     localRuntime files('libs/entity_texture_features_1.21-neoforge-7.1.jar')
     localRuntime files('libs/tacz-neoforge-1.21.1-1.1.8-r3.jar')
+    compileOnly files('libs/tacz-neoforge-1.21.1-1.1.8-r3.jar')
     localRuntime files('libs/emotecraft-for-MC1.21.1-2.4.12-neoforge.jar')
 
     compileOnly files('libs/bendy-lib-forge-5.1.jar')

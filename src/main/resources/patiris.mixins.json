@@ -5,7 +5,9 @@
   "compatibilityLevel": "JAVA_21",
   "mixins": [],
   "client": [
-    "PatFeatureRendererMixin"
+    "PatFeatureRendererMixin",
+    "EmoteBendCompatMixin",
+    "EmoteOuterLayerBendMixin"
   ],
   "injectors": {
     "defaultRequire": 1

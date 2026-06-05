@@ -135,6 +135,12 @@ dependencies {
 
     compileOnly files('libs/bendy-lib-forge-5.1.jar')
     compileOnly files('libs/player-animation-lib-forge-2.0.1+1.21.1.jar')
+
+    localRuntime files('libs/realcamera-1.21.1-neoforge-0.7.6-beta.jar')
+    compileOnly files('libs/realcamera-1.21.1-neoforge-0.7.6-beta.jar')
+
+    localRuntime files('libs/realda-1.0.0.jar')
+
 }
 
 // This block of code expands all declared replace properties in the specified resource targets.

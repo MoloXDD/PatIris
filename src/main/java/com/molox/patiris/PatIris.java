@@ -1,5 +1,7 @@
 package com.molox.patiris;
 
+import me.shedaniel.autoconfig.AutoConfig;
+import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
@@ -14,5 +16,10 @@ public class PatIris {
 
     public PatIris(IEventBus modEventBus, ModContainer modContainer) {
         LOGGER.info("PatIris initializing...");
+        AutoConfig.register(PatIrisConfig.class, GsonConfigSerializer::new);
+    }
+
+    public static PatIrisConfig getConfig() {
+        return AutoConfig.getConfigHolder(PatIrisConfig.class).getConfig();
     }
 }

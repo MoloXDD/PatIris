@@ -141,6 +141,7 @@ dependencies {
 
     localRuntime files('libs/realda-1.0.0.jar')
     localRuntime files('libs/cloth-config-15.0.140-neoforge.jar')
+    compileOnly files('libs/cloth-config-15.0.140-neoforge.jar')
 
     localRuntime files('libs/amendments-1.21-2.0.15-neoforge.jar')
     compileOnly files('libs/amendments-1.21-2.0.15-neoforge.jar')

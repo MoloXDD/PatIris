@@ -9,7 +9,8 @@
     "EmoteBendCompatMixin",
     "EmoteOuterLayerBendMixin",
     "RealCameraHeadRotationMixin",
-    "PlayerModelHeadRotationMixin"
+    "PlayerModelHeadRotationMixin",
+    "AmendmentsArmPoseMixin"
   ],
   "injectors": {
     "defaultRequire": 1

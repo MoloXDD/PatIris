@@ -140,6 +140,8 @@ dependencies {
     compileOnly files('libs/realcamera-1.21.1-neoforge-0.7.6-beta.jar')
 
     localRuntime files('libs/realda-1.0.0.jar')
+    localRuntime files('libs/cloth-config-15.0.140-neoforge.jar')
+
 
 }
 

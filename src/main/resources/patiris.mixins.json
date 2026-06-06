@@ -7,7 +7,9 @@
   "client": [
     "PatFeatureRendererMixin",
     "EmoteBendCompatMixin",
-    "EmoteOuterLayerBendMixin"
+    "EmoteOuterLayerBendMixin",
+    "RealCameraHeadRotationMixin",
+    "PlayerModelHeadRotationMixin"
   ],
   "injectors": {
     "defaultRequire": 1

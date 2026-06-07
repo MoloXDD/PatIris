@@ -11,7 +11,8 @@
     "RealCameraHeadRotationMixin",
     "PlayerModelHeadRotationMixin",
     "AmendmentsArmPoseMixin",
-    "CarryOnArmSaverMixin"
+    "CarryOnArmSaverMixin",
+    "SableCrosshairCompatMixin"
   ],
   "injectors": {
     "defaultRequire": 1

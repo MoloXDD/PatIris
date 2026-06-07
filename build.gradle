@@ -149,6 +149,8 @@ dependencies {
     localRuntime files('libs/moonlight-1.21-2.29.33-neoforge.jar')
     compileOnly files('libs/moonlight-1.21-2.29.33-neoforge.jar')
 
+    localRuntime files('libs/carryon-neoforge-1.21.1-2.2.4.4.jar')
+    compileOnly files('libs/carryon-neoforge-1.21.1-2.2.4.4.jar')
 }
 
 // This block of code expands all declared replace properties in the specified resource targets.

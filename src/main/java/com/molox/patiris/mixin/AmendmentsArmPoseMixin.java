@@ -1,6 +1,6 @@
 package com.molox.patiris.mixin;
 
-import com.molox.patiris.PatIris;
+import com.molox.patiris.CarryOnArmState;
 import net.mehvahdjukaar.moonlight.api.item.IThirdPersonAnimationProvider;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.PlayerModel;
@@ -18,7 +18,6 @@ import java.lang.reflect.Field;
 @Mixin(targets = "traben.entity_model_features.models.parts.EMFModelPartWithState", remap = false)
 public class AmendmentsArmPoseMixin {
 
-    private static long patiris$lastLogTime = 0;
     private static Field patiris$nameField = null;
     private static boolean patiris$nameFieldSearched = false;
 
@@ -43,34 +42,65 @@ public class AmendmentsArmPoseMixin {
         HumanoidModel<?> model = patiris$getModel(player);
         if (model == null) return;
 
+        boolean carrying = patiris$isCarrying(player);
+
         switch (partName) {
             case "right_arm" -> {
+                if (carrying) {
+                    if (CarryOnArmState.saved) {
+                        model.rightArm.xRot = CarryOnArmState.rightXRot;
+                        model.rightArm.yRot = CarryOnArmState.rightYRot;
+                        model.rightArm.zRot = CarryOnArmState.rightZRot;
+                        model.rightArm.x = CarryOnArmState.rightX;
+                        model.rightArm.y = CarryOnArmState.rightY;
+                        model.rightArm.z = CarryOnArmState.rightZ;
+                    }
+                    return;
+                }
                 ItemStack stack = patiris$getArmStack(player, true);
                 if (stack.isEmpty()) return;
                 if (IThirdPersonAnimationProvider.get(stack.getItem()) == null) return;
-                long now = System.currentTimeMillis();
-                float before = model.rightArm.xRot;
                 patiris$poseArm(player, stack, player.getMainArm(), model, true);
-                if (now - patiris$lastLogTime >= 1000) {
-                    patiris$lastLogTime = now;
-                    PatIris.LOGGER.info("[BeforeDA] right_arm before={} after={}",
-                            String.format("%.4f", before),
-                            String.format("%.4f", model.rightArm.xRot));
-                }
             }
             case "right_sleeve" -> {
+                if (!(model instanceof PlayerModel<?> pm)) return;
+                if (carrying) {
+                    float xRot = CarryOnArmState.saved ? CarryOnArmState.rightXRot : model.rightArm.xRot;
+                    float yRot = CarryOnArmState.saved ? CarryOnArmState.rightYRot : model.rightArm.yRot;
+                    float zRot = CarryOnArmState.saved ? CarryOnArmState.rightZRot : model.rightArm.zRot;
+                    float x = CarryOnArmState.saved ? CarryOnArmState.rightX : model.rightArm.x;
+                    float y = CarryOnArmState.saved ? CarryOnArmState.rightY : model.rightArm.y;
+                    float z = CarryOnArmState.saved ? CarryOnArmState.rightZ : model.rightArm.z;
+                    pm.rightSleeve.xRot = xRot;
+                    pm.rightSleeve.yRot = yRot;
+                    pm.rightSleeve.zRot = zRot;
+                    pm.rightSleeve.x = x;
+                    pm.rightSleeve.y = y;
+                    pm.rightSleeve.z = z;
+                    return;
+                }
                 ItemStack stack = patiris$getArmStack(player, true);
                 if (stack.isEmpty()) return;
                 if (IThirdPersonAnimationProvider.get(stack.getItem()) == null) return;
-                if (!(model instanceof PlayerModel<?> playerModel)) return;
-                playerModel.rightSleeve.xRot = model.rightArm.xRot;
-                playerModel.rightSleeve.yRot = model.rightArm.yRot;
-                playerModel.rightSleeve.zRot = model.rightArm.zRot;
-                playerModel.rightSleeve.x = model.rightArm.x;
-                playerModel.rightSleeve.y = model.rightArm.y;
-                playerModel.rightSleeve.z = model.rightArm.z;
+                pm.rightSleeve.xRot = model.rightArm.xRot;
+                pm.rightSleeve.yRot = model.rightArm.yRot;
+                pm.rightSleeve.zRot = model.rightArm.zRot;
+                pm.rightSleeve.x = model.rightArm.x;
+                pm.rightSleeve.y = model.rightArm.y;
+                pm.rightSleeve.z = model.rightArm.z;
             }
             case "left_arm" -> {
+                if (carrying) {
+                    if (CarryOnArmState.saved) {
+                        model.leftArm.xRot = CarryOnArmState.leftXRot;
+                        model.leftArm.yRot = CarryOnArmState.leftYRot;
+                        model.leftArm.zRot = CarryOnArmState.leftZRot;
+                        model.leftArm.x = CarryOnArmState.leftX;
+                        model.leftArm.y = CarryOnArmState.leftY;
+                        model.leftArm.z = CarryOnArmState.leftZ;
+                    }
+                    return;
+                }
                 ItemStack stack = patiris$getArmStack(player, false);
                 if (stack.isEmpty()) return;
                 if (IThirdPersonAnimationProvider.get(stack.getItem()) == null) return;
@@ -78,17 +108,40 @@ public class AmendmentsArmPoseMixin {
                 patiris$poseArm(player, stack, offArm, model, false);
             }
             case "left_sleeve" -> {
+                if (!(model instanceof PlayerModel<?> pm)) return;
+                if (carrying) {
+                    float xRot = CarryOnArmState.saved ? CarryOnArmState.leftXRot : model.leftArm.xRot;
+                    float yRot = CarryOnArmState.saved ? CarryOnArmState.leftYRot : model.leftArm.yRot;
+                    float zRot = CarryOnArmState.saved ? CarryOnArmState.leftZRot : model.leftArm.zRot;
+                    float x = CarryOnArmState.saved ? CarryOnArmState.leftX : model.leftArm.x;
+                    float y = CarryOnArmState.saved ? CarryOnArmState.leftY : model.leftArm.y;
+                    float z = CarryOnArmState.saved ? CarryOnArmState.leftZ : model.leftArm.z;
+                    pm.leftSleeve.xRot = xRot;
+                    pm.leftSleeve.yRot = yRot;
+                    pm.leftSleeve.zRot = zRot;
+                    pm.leftSleeve.x = x;
+                    pm.leftSleeve.y = y;
+                    pm.leftSleeve.z = z;
+                    return;
+                }
                 ItemStack stack = patiris$getArmStack(player, false);
                 if (stack.isEmpty()) return;
                 if (IThirdPersonAnimationProvider.get(stack.getItem()) == null) return;
-                if (!(model instanceof PlayerModel<?> playerModel)) return;
-                playerModel.leftSleeve.xRot = model.leftArm.xRot;
-                playerModel.leftSleeve.yRot = model.leftArm.yRot;
-                playerModel.leftSleeve.zRot = model.leftArm.zRot;
-                playerModel.leftSleeve.x = model.leftArm.x;
-                playerModel.leftSleeve.y = model.leftArm.y;
-                playerModel.leftSleeve.z = model.leftArm.z;
+                pm.leftSleeve.xRot = model.leftArm.xRot;
+                pm.leftSleeve.yRot = model.leftArm.yRot;
+                pm.leftSleeve.zRot = model.leftArm.zRot;
+                pm.leftSleeve.x = model.leftArm.x;
+                pm.leftSleeve.y = model.leftArm.y;
+                pm.leftSleeve.z = model.leftArm.z;
             }
+        }
+    }
+
+    private static boolean patiris$isCarrying(Player player) {
+        try {
+            return tschipp.carryon.common.carry.CarryOnDataManager.getCarryData(player).isCarrying();
+        } catch (Throwable t) {
+            return false;
         }
     }
 

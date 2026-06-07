@@ -6,6 +6,7 @@ import me.shedaniel.autoconfig.AutoConfig;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -26,6 +27,9 @@ public class PatIrisClient {
     private static boolean emoteChecked = false;
     private static Method isPlayingEmoteMethod = null;
 
+    private static boolean carryOnLoaded = false;
+    private static boolean carryOnChecked = false;
+
     @SubscribeEvent
     public static void onClientSetup(FMLClientSetupEvent event) {
         ModList.get().getModContainerById(PatIris.MOD_ID).ifPresent(container ->
@@ -42,6 +46,24 @@ public class PatIrisClient {
 
     private static boolean shouldUseVanillaModel(EMFEntity entity) {
         return isHoldingBlockedItem(entity) || isPlayerEmoting(entity);
+    }
+
+    private static boolean isCarryingEntity(EMFEntity entity) {
+        if (!isCarryOnLoaded()) return false;
+        if (!(entity instanceof Player player)) return false;
+        try {
+            return tschipp.carryon.common.carry.CarryOnDataManager.getCarryData(player).isCarrying();
+        } catch (Throwable t) {
+            return false;
+        }
+    }
+
+    private static boolean isCarryOnLoaded() {
+        if (!carryOnChecked) {
+            carryOnChecked = true;
+            carryOnLoaded = isModLoaded("carryon");
+        }
+        return carryOnLoaded;
     }
 
     private static boolean isHoldingBlockedItem(EMFEntity entity) {

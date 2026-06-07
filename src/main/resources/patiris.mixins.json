@@ -10,7 +10,8 @@
     "EmoteOuterLayerBendMixin",
     "RealCameraHeadRotationMixin",
     "PlayerModelHeadRotationMixin",
-    "AmendmentsArmPoseMixin"
+    "AmendmentsArmPoseMixin",
+    "CarryOnArmSaverMixin"
   ],
   "injectors": {
     "defaultRequire": 1

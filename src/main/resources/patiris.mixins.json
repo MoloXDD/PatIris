@@ -12,7 +12,8 @@
     "PlayerModelHeadRotationMixin",
     "AmendmentsArmPoseMixin",
     "CarryOnArmSaverMixin",
-    "SableCrosshairCompatMixin"
+    "SableCrosshairCompatMixin",
+    "PlanterShadowMixin"
   ],
   "injectors": {
     "defaultRequire": 1
